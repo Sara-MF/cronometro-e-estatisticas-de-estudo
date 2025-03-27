@@ -1,9 +1,16 @@
 'use client'
 
 import Button from '@/components/Button';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 
-export default function Timer() {
+type TimerProps = {
+  time: number;
+  setTime: React.Dispatch<React.SetStateAction<number>>;
+  running: boolean;
+  setRunning: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function Timer({ time, setTime, running, setRunning }: TimerProps) {
 
   // Modal
   const modalRef = useRef<HTMLDialogElement>(null);
@@ -13,9 +20,6 @@ export default function Timer() {
   };
 
   // Contador
-  const [time, setTime] = useState(0);
-  const [running, setRunning] = useState(false);
-
   useEffect(() => {
     let timer : NodeJS.Timeout;
     if (running) {
@@ -46,23 +50,22 @@ export default function Timer() {
           <Button name="Pausar" color="btn-accent" onClick={() => setRunning(!running)} />
         )}
 
-        <Button name="Resetar" color="btn-error" onClick={() => { setTime(0); setRunning(false); }}></Button>
-        <Button name="Salvar tempo" color="btn-success" onClick={showModal}></Button>
+        <Button name="Resetar" color="btn-error" onClick={() => { setTime(0); setRunning(false); }} ></Button>
+        <Button name="Salvar tempo" color="btn-success" onClick={showModal} ></Button>
       </div>
 
-
-        <dialog ref={modalRef} className="modal">
-          <div className="modal-box">
-            <h3 className="font-bold text-lg">Encerrar contador</h3>
-            <p className="py-4">Tem certeza que deseja encerrar o contador?</p>
-            <div className="modal-action flex flex-row justify-end">
-              {/* <form method="dialog"> */}
-                <button className="btn btn-success" onClick={() => modalRef.current?.close()}>Encerrar</button>
-                <button className="btn btn-warning" onClick={() => modalRef.current?.close()}>Voltar</button>
-              {/* </form> */}
-            </div>
+      <dialog ref={modalRef} className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Encerrar contador</h3>
+          <p className="py-4">Tem certeza que deseja encerrar o contador?</p>
+          <div className="modal-action flex flex-row justify-end">
+            {/* <form method="dialog"> */}
+              <button className="btn btn-success" onClick={() => modalRef.current?.close()}>Encerrar</button>
+              <button className="btn btn-warning" onClick={() => modalRef.current?.close()}>Voltar</button>
+            {/* </form> */}
           </div>
-        </dialog>
+        </div>
+      </dialog>
 
     </div>
 

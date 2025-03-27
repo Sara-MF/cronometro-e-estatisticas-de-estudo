@@ -16,16 +16,19 @@ export default function Home() {
     Matemática: ["Álgebra", "Geometria", "Probabilidade"],
   }
 
+  const [time, setTime] = useState(0);
+  const [running, setRunning] = useState(false);
+
   return (
     <div className="lg:w-1/3 flex flex-col gap-12 p-6 rounded-lg shadow-lg bg-base-300">
 
       <div className="w-full flex flex-row justify-between gap-4">
-        <Select type="disciplina" onChange={(value) => setSubject(value)}/>
+        <Select type="disciplina" onChange={(value) => setSubject(value)} disabled={time > 0 || running}/>
 
-        <Select type="tema" options={subjectTopics[subject] || ["Selecione um tema"]} disabled={!subject} />
+        <Select type="tema" options={subjectTopics[subject] || ["Selecione um tema"]} disabled={!subject || time > 0 || running} />
       </div>
 
-      <Timer/>
+      <Timer time={time} setTime={setTime} running={running} setRunning={setRunning} />
 
     </div>
   );
