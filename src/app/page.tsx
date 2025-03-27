@@ -3,7 +3,7 @@
 import Select from '@/components/Select';
 import Timer from '@/components/Timer';
 import Statistic from '@/components/Statistic';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export default function Home() {
 
@@ -27,6 +27,15 @@ export default function Home() {
     statisticModalRef.current?.showModal();
   }
 
+  useEffect(() => {
+    if (subject) {
+      const firstTopic = subjectTopics[subject]?.[0] || "Selecione um tema";
+      setTopic(firstTopic);
+    } else {
+      setTopic("");
+    }
+  }, [subject]);
+
   return (
 
     <>
@@ -37,9 +46,9 @@ export default function Home() {
       <div className="lg:w-1/3 flex flex-col gap-12 p-6 rounded-lg shadow-lg bg-base-300">
 
         <div className="w-full flex flex-row justify-between gap-4">
-          <Select type="disciplina" onChange={(value) => setSubject(value)} disabled={time > 0 || running}/>
+          <Select type="subject" onChange={(value) => setSubject(value)} disabled={time > 0 || running}/>
 
-          <Select type="tema" onChange={(value) => setTopic(value)} options={subjectTopics[subject] || ["Selecione um tema"]} disabled={!subject || time > 0 || running} />
+          <Select type="topic" id="selectTopicId" onChange={(value) => setTopic(value)} options={subjectTopics[subject] || ["Selecione um tema"]} disabled={!subject || time > 0 || running} />
         </div>
 
         <Timer time={time} setTime={setTime} running={running} setRunning={setRunning} subject={subject} topic={topic} />
