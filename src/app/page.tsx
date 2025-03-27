@@ -28,7 +28,7 @@ export default function Home() {
         <Select type="tema" options={subjectTopics[subject] || ["Selecione um tema"]} disabled={!subject || time > 0 || running} />
       </div>
 
-      <Timer time={time} setTime={setTime} running={running} setRunning={setRunning} />
+      <Timer time={time} setTime={setTime} running={running} setRunning={setRunning} subject={subject} />
 
     </div>
   );
