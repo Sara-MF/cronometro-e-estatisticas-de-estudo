@@ -36,9 +36,25 @@ export default function Home() {
     }
   }, [subject, subjectTopics]);
 
+  const formatTimer = (seconds: number) => {
+    const min = Math.floor(seconds / 60);
+    const sec = seconds % 60;
+    return `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+  };
+
+  useEffect(() => {
+    if(running || time > 0) {
+      document.title = `Estudando - [${formatTimer(time)}]`
+    } else {
+      document.title = "Meus estudos"
+    }
+  }, [running, time])
+
   return (
 
     <>
+      
+
       <h1 className="font-bold border-b cursor-pointer fixed top-0 right-0 m-4" onClick={openStatistics}>Estatísticas</h1>
 
       <Statistic ref={statisticModalRef} />
