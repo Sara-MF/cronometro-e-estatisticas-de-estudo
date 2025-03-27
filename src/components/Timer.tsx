@@ -3,7 +3,6 @@
 import Button from '@/components/Button';
 import { useRef, useEffect } from 'react';
 import { toast, ToastContainer } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
 
 type TimerProps = {
   time: number;
@@ -30,7 +29,12 @@ export default function Timer({ time, setTime, running, setRunning, subject }: T
   const modalRef = useRef<HTMLDialogElement>(null);
 
   const showModal = () => {
-    modalRef.current?.showModal();
+    if(time > 0 ) {
+      modalRef.current?.showModal();
+    } else {
+      toast.warning("Inicie o cronômetro antes de salvar o tempo")
+      return;
+    }
   };
 
   // Contador
