@@ -39,7 +39,7 @@ const Statistic = forwardRef<HTMLDialogElement>((_, ref) => {
           <div className="modal-action flex flex-row justify-end">
             <button
               className="btn btn-soft"
-              onClick={() => ref?.current?.close()}
+              onClick={() => {if(typeof ref !== 'function') ref?.current?.close()}}
             >
               Voltar
             </button>
