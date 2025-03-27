@@ -1,6 +1,7 @@
 'use client'
 
-import Button from '@/components/Button';
+import Button from './Button';
+import Statistic from './Statistic';
 import { useRef, useEffect } from 'react';
 import { toast, ToastContainer } from "react-toastify";
 
@@ -10,15 +11,18 @@ type TimerProps = {
   running: boolean;
   setRunning: React.Dispatch<React.SetStateAction<boolean>>;
   subject: string;
+  topic: string;
 };
 
-export default function Timer({ time, setTime, running, setRunning, subject }: TimerProps) {
+export default function Timer({ time, setTime, running, setRunning, subject, topic }: TimerProps) {
 
   // Comportamento do botão Iniciar
   const isSubjectChoosed = subject === "" ? false : true;
 
+  const isTopicChoosed = topic === "" ? false : true;
+
   const handleStart = () => {
-    if (!isSubjectChoosed) {
+    if (!isSubjectChoosed || !isTopicChoosed) {
       toast.warning("Selecione uma disciplina e um tema")
       return;
     }
@@ -28,6 +32,8 @@ export default function Timer({ time, setTime, running, setRunning, subject }: T
   // Modal
   const modalRef = useRef<HTMLDialogElement>(null);
 
+  const statisticModalRef = useRef<HTMLDialogElement>(null);
+
   const showModal = () => {
     if(time > 0 ) {
       modalRef.current?.showModal();
@@ -36,6 +42,22 @@ export default function Timer({ time, setTime, running, setRunning, subject }: T
       return;
     }
   };
+
+  const closeModal = () => {
+
+    setRunning(false)
+
+    localStorage.setItem("disciplina", subject);
+    localStorage.setItem("tema", topic);
+    localStorage.setItem("tempoEstudado", time.toString());
+
+    setTime(0)
+
+    modalRef.current?.close();
+
+    statisticModalRef.current?.showModal();
+
+  }
 
   // Contador
   useEffect(() => {
@@ -87,13 +109,13 @@ export default function Timer({ time, setTime, running, setRunning, subject }: T
             <h3 className="font-bold text-lg">Encerrar contador</h3>
             <p className="py-4">Tem certeza que deseja encerrar o contador?</p>
             <div className="modal-action flex flex-row justify-end">
-              {/* <form method="dialog"> */}
-                <button className="btn btn-success" onClick={() => modalRef.current?.close()}>Encerrar</button>
-                <button className="btn btn-warning" onClick={() => modalRef.current?.close()}>Voltar</button>
-              {/* </form> */}
+              <button className="btn btn-success" onClick={closeModal}>Encerrar</button>
+              <button className="btn btn-warning" onClick={() => modalRef.current?.close()}>Voltar</button>
             </div>
           </div>
         </dialog>
+
+        <Statistic ref={statisticModalRef} />
 
       </div>
 
