@@ -14,7 +14,7 @@ export default function Select({ type, id, options = [], disabled = false, onCha
 
   return (
 
-    <select defaultValue={title} className="select" disabled={disabled} onChange={(e) => onChange && onChange(e.target.value)}>
+    <select defaultValue={title} id={id} className="select" disabled={disabled} onChange={(e) => onChange && onChange(e.target.value)}>
       {type === "subject" ? (
           <option value={title} disabled>
           {title}

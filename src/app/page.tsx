@@ -34,7 +34,7 @@ export default function Home() {
     } else {
       setTopic("");
     }
-  }, [subject]);
+  }, [subject, subjectTopics]);
 
   return (
 

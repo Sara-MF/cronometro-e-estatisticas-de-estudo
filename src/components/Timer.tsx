@@ -66,11 +66,9 @@ export default function Timer({ time, setTime, running, setRunning, subject, top
       timer  = setInterval(() => {
         setTime((previousTime) => previousTime + 1);
       }, 1000);
-    } else {
-      clearInterval(timer);
     }
     return () => clearInterval(timer);
-  }, [running]);
+  }, [running, setTime]);
 
   const formatTimer = (seconds: number) => {
     const min = Math.floor(seconds / 60);
