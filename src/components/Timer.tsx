@@ -1,7 +1,7 @@
 'use client'
 
 import Button from './Button';
-import Statistic from './Statistic';
+import Statistic, { StudyInfo } from './Statistic';
 import { useRef, useEffect } from 'react';
 import { toast, ToastContainer } from "react-toastify";
 
@@ -12,9 +12,11 @@ type TimerProps = {
   setRunning: React.Dispatch<React.SetStateAction<boolean>>;
   subject: string;
   topic: string;
+  setStudyTime:  React.Dispatch<React.SetStateAction<Array<StudyInfo>>>;
+  studyTime: Array<StudyInfo>;
 };
 
-export default function Timer({ time, setTime, running, setRunning, subject, topic }: TimerProps) {
+export default function Timer({ time, setTime, running, setRunning, subject, topic, studyTime, setStudyTime }: TimerProps) {
 
   // Comportamento do botão Iniciar
   const isSubjectChoosed = subject === "" ? false : true;
@@ -47,9 +49,16 @@ export default function Timer({ time, setTime, running, setRunning, subject, top
 
     setRunning(false)
 
-    localStorage.setItem("disciplina", subject);
-    localStorage.setItem("tema", topic);
-    localStorage.setItem("tempoEstudado", time.toString());
+    const studyInfo: StudyInfo = {
+      "disciplina": subject,
+      "tema": topic,
+      "tempoEstudado": time
+    }
+
+    const studyStatistics = JSON.parse(localStorage.getItem("estatisticaEstudo") ?? "[]");
+    studyStatistics.push(studyInfo);
+    setStudyTime(studyStatistics);
+    localStorage.setItem("estatisticaEstudo", JSON.stringify(studyStatistics));
 
     setTime(0)
 
@@ -113,7 +122,7 @@ export default function Timer({ time, setTime, running, setRunning, subject, top
           </div>
         </dialog>
 
-        <Statistic ref={statisticModalRef} />
+        <Statistic ref={statisticModalRef} studyTime={studyTime} />
 
       </div>
 
