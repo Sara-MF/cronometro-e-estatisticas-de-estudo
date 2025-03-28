@@ -45,8 +45,10 @@ export default function Home() {
   }, [subject, subjectTopics]);
 
   useEffect(() => {
-    if(running || time > 0) {
-      document.title = `Estudando - [${formatTimer(time)}]`
+    if(running && time > 0) {
+      document.title = `Estudando [${formatTimer(time)}]`
+    } else if (!running && time > 0) {
+      document.title = `Em pausa [${formatTimer(time)}]`
     } else {
       document.title = "Meus estudos"
     }
