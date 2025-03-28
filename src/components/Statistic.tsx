@@ -17,6 +17,21 @@ export default function Statistic({ studyTime, ref }: StatisticProps) {
 
   const [subjectStatistics, setSubjectStatistics] = useState<Array<StudyInfo>>([]);
 
+  const formatTimer = (seconds: number) => {
+    if (seconds >= 3600) {
+      const hours = Math.floor(seconds / 3600); 
+      const minutes = Math.floor((seconds % 3600) / 60); 
+      const sec = seconds % 60;
+
+      return `${String(hours).padStart(2, "0")}h ${String(minutes).padStart(2, "0")}m ${String(sec).padStart(2, "0")}s`;
+    } else {
+      const minutes = Math.floor(seconds / 60); 
+      const sec = seconds % 60; 
+      
+      return `${String(minutes).padStart(2, "0")}m ${String(sec).padStart(2, "0")}s`;
+    }
+  };
+
   useEffect(() => {
 
     const studyStatistics = JSON.parse(localStorage.getItem("estatisticaEstudo") ?? "[]") as Array<StudyInfo>;
@@ -61,7 +76,7 @@ export default function Statistic({ studyTime, ref }: StatisticProps) {
                     <div className="flex flex-col border-2 rounded border-base-300 p-2" key={index}>
                       <p>Disciplina: {item.disciplina}</p>
                       <p>Tema: {item.tema}</p>
-                      <p>Tempo estudado: {item.tempoEstudado}</p>
+                      <p>Tempo estudado: {formatTimer(item.tempoEstudado)}</p>
                     </div>
                   )
               })}

@@ -80,9 +80,18 @@ export default function Timer({ time, setTime, running, setRunning, subject, top
   }, [running, setTime]);
 
   const formatTimer = (seconds: number) => {
-    const min = Math.floor(seconds / 60);
-    const sec = seconds % 60;
-    return `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+    if (seconds >= 3600) {
+      const hours = Math.floor(seconds / 3600); 
+      const minutes = Math.floor((seconds % 3600) / 60); 
+      const sec = seconds % 60;
+
+      return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+    } else {
+      const minutes = Math.floor(seconds / 60); 
+      const sec = seconds % 60; 
+      
+      return `${String(minutes).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+    }
   };
 
   return (
