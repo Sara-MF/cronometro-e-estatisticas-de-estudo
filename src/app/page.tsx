@@ -36,15 +36,6 @@ export default function Home() {
   const [studyTime, setStudyTime] = useState<Array<StudyInfo>>([]);
 
   useEffect(() => {
-    if (subject) {
-      const firstTopic = subjectTopics[subject]?.[0] || "Selecione um tema";
-      setTopic(firstTopic);
-    } else {
-      setTopic("");
-    }
-  }, [subject, subjectTopics]);
-
-  useEffect(() => {
     if(running && time > 0) {
       document.title = `Estudando [${formatTimer(time)}]`
     } else if (!running && time > 0) {
@@ -68,12 +59,22 @@ export default function Home() {
       <div className="lg:w-1/3 flex flex-col gap-12 p-6 rounded-lg shadow-lg bg-base-300">
 
         <div className="w-full flex flex-row justify-between gap-4">
-          <Select type="subject" onChange={(value) => setSubject(value)} disabled={time > 0 || running}/>
+          <Select type="subject" onChange={(value) => {
+            setSubject(value)
+            setTopic(subjectTopics[value][0])
+          }} disabled={time > 0 || running} selected={subject} 
+            options={Object.keys(subjectTopics)}
+          />
 
-          <Select type="topic" id="selectTopicId" onChange={(value) => setTopic(value)} options={subjectTopics[subject] || ["Selecione um tema"]} disabled={!subject || time > 0 || running} />
+          <Select type="topic" id="selectTopicId" onChange={(value) => setTopic(value)} 
+            options={subjectTopics[subject]} 
+            disabled={!subject || time > 0 || running} selected={topic}
+          />
         </div>
 
-        <Timer time={time} setTime={setTime} running={running} setRunning={setRunning} subject={subject} topic={topic} studyTime={studyTime} setStudyTime={setStudyTime} />
+        <Timer time={time} setTime={setTime} running={running} setRunning={setRunning} 
+          subject={subject} topic={topic} studyTime={studyTime} setStudyTime={setStudyTime} 
+        />
 
       </div>
     </>
