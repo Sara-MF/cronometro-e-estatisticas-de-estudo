@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react';
+import formatTime from '@/utils/FormatTime';
+import dynamic from 'next/dynamic';
 
 type StatisticProps = {
   studyTime: Array<StudyInfo>;
@@ -13,24 +15,21 @@ export interface StudyInfo {
   tempoEstudado: number
 }
 
+interface TopicBySubjects {
+  [subject: string]: {
+    topics: string[];
+    times: number[];
+    totalStudyTime: number;
+  }
+}
+
 export default function Statistic({ studyTime, ref }: StatisticProps) {
 
   const [subjectStatistics, setSubjectStatistics] = useState<Array<StudyInfo>>([]);
 
-  const formatTimer = (seconds: number) => {
-    if (seconds >= 3600) {
-      const hours = Math.floor(seconds / 3600); 
-      const minutes = Math.floor((seconds % 3600) / 60); 
-      const sec = seconds % 60;
+  const [topicsBySubjects, setTopicsBySubjects] = useState<TopicBySubjects>({});
 
-      return `${String(hours).padStart(2, "0")}h ${String(minutes).padStart(2, "0")}m ${String(sec).padStart(2, "0")}s`;
-    } else {
-      const minutes = Math.floor(seconds / 60); 
-      const sec = seconds % 60; 
-      
-      return `${String(minutes).padStart(2, "0")}m ${String(sec).padStart(2, "0")}s`;
-    }
-  };
+  const PieChart = dynamic(() => import('../components/Chart'), { ssr: false });
 
   useEffect(() => {
 
@@ -59,27 +58,54 @@ export default function Statistic({ studyTime, ref }: StatisticProps) {
 
   }, [studyTime]);
 
+  useEffect(() => {
+
+    if(subjectStatistics.length > 0) {
+
+      const topicsBySubjects: TopicBySubjects = subjectStatistics.reduce((aux: TopicBySubjects, current: StudyInfo) => {
+
+        const { disciplina, tema, tempoEstudado } = current;
+
+        if (!aux.hasOwnProperty(disciplina)) {
+          aux[disciplina] = {topics: [], times: [], totalStudyTime: 0};
+        }
+
+        aux[disciplina].topics.push(tema);
+        aux[disciplina].times.push(tempoEstudado);
+        aux[disciplina].totalStudyTime += tempoEstudado;
+
+        return aux;
+      }, {} as TopicBySubjects)
+
+      setTopicsBySubjects(topicsBySubjects);
+    }
+
+  }, [subjectStatistics]);
+
+  console.log("topicsBySubjects", topicsBySubjects)
+
   return (
     <>
-      <dialog ref={ref} className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg pb-2">Minhas estatísticas</h3>
+      <dialog ref={ref} className="modal bg-base-100">
+        <div className="modal-box w-1/2 max-w-4xl max-h-5/6">
+          <h3 className="font-bold text-lg pb-6">Minhas estatísticas</h3>
 
           {subjectStatistics.length === 0 ? (
             <div className="flex flex-col">
               <p>Você ainda não estudou nada. Que tal começar agora?</p>
             </div>
           ) : 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
-              {subjectStatistics.map((item, index) => {
-                  return (
-                    <div className="flex flex-col border-2 rounded border-base-300 p-2" key={index}>
-                      <p>Disciplina: {item.disciplina}</p>
-                      <p>Tema: {item.tema}</p>
-                      <p>Tempo estudado: {formatTimer(item.tempoEstudado)}</p>
-                    </div>
-                  )
-              })}
+
+            <div className="flex flex-col md:flex-wrap md:flex-row gap-6 justify-center max-w-2xl">
+
+              {Object.entries(topicsBySubjects).map(([subject, topicsByTime]) => (
+                <div className="flex flex-col border-2 rounded bg-base-200 border-base-300 p-2 gap-3 max-w-1/2" key={subject}>
+                  <p className="font-bold text-center">{subject} ({formatTime(topicsByTime.totalStudyTime, false)})</p>
+
+                  <PieChart topics={topicsByTime.topics} times={topicsByTime.times} />
+                </div>
+              ))}
+
             </div>
           }
 
