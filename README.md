@@ -31,6 +31,10 @@ Têm 3 botões que controlam o cronômetro:
 
 Foi inserido um atalho de Estatísticas no canto superior da tela, para que o usuário pudesse visualizar as estatísticas sem ter que esperar concluir algum estudo para conferir
 
+Cada gráfico mostra uma disciplina e os tempos de cada tema estudado
+
+As estatísticas podem ser acessadas em qualquer estado do cronômetro
+
 Caso o usuário tente acessar sem ter estudado ainda, aparece uma mensagem o incentivando a estudar
 
 ## Outros detalhes do projeto
@@ -52,3 +56,15 @@ Enquanto o cronômetro não tiver sido iniciado, o título é exibido como "Meus
 Após o início, é exibido como "Estudando" e mostra ao lado o tempo do cronômetro
 
 Caso seja pausado, é exibido "Em pausa", também com o tempo ao lado
+
+### Ferramentas utilizadas
+
+Para escolha de cores e componentes foi utilizada a biblioteca daisyui
+
+Para exibição das mensagens de erro foi utilizada a biblioteca react-toastify
+
+Para os gráficos foi utilizada a biblioteca Chartjs
+
+O projeto foi criado em Nextjs, na versão mais atualizada
+
+Os commits do projeto foram realizados de forma semântica
