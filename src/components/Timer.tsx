@@ -4,6 +4,7 @@ import Button from './Button';
 import Statistic, { StudyInfo } from './Statistic';
 import { useRef, useEffect } from 'react';
 import { toast, ToastContainer } from "react-toastify";
+import formatTime from '@/utils/FormatTime';
 
 type TimerProps = {
   time: number;
@@ -79,21 +80,6 @@ export default function Timer({ time, setTime, running, setRunning, subject, top
     return () => clearInterval(timer);
   }, [running, setTime]);
 
-  const formatTimer = (seconds: number) => {
-    if (seconds >= 3600) {
-      const hours = Math.floor(seconds / 3600); 
-      const minutes = Math.floor((seconds % 3600) / 60); 
-      const sec = seconds % 60;
-
-      return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
-    } else {
-      const minutes = Math.floor(seconds / 60); 
-      const sec = seconds % 60; 
-      
-      return `${String(minutes).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
-    }
-  };
-
   return (
     <>
 
@@ -106,7 +92,7 @@ export default function Timer({ time, setTime, running, setRunning, subject, top
         />
 
       <div className="w-full flex flex-col justify-center items-center gap-12">
-        <h1 id="timer" className="text-6xl">{formatTimer(time)}</h1>
+        <h1 id="timer" className="text-6xl">{formatTime(time, true)}</h1>
 
         <div className="flex justify-evenly w-full">
 

@@ -3,6 +3,7 @@
 import Select from '@/components/Select';
 import Timer from '@/components/Timer';
 import Statistic, { StudyInfo } from '@/components/Statistic';
+import formatTime from '@/utils/FormatTime';
 import { useState, useRef, useEffect } from 'react';
 
 export default function Home() {
@@ -27,29 +28,13 @@ export default function Home() {
     Matemática: ["Álgebra", "Geometria", "Probabilidade"],
   }
 
-  const formatTimer = (seconds: number) => {
-    if (seconds >= 3600) {
-      const hours = Math.floor(seconds / 3600); 
-      const minutes = Math.floor((seconds % 3600) / 60); 
-      const sec = seconds % 60;
-
-      return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
-    } else {
-      const minutes = Math.floor(seconds / 60); 
-      const sec = seconds % 60; 
-
-      return `${String(minutes).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
-    }
-  };
-  
-
   const [studyTime, setStudyTime] = useState<Array<StudyInfo>>([]);
 
   useEffect(() => {
     if(running && time > 0) {
-      document.title = `Estudando [${formatTimer(time)}]`
+      document.title = `Estudando [${formatTime(time, true)}]`
     } else if (!running && time > 0) {
-      document.title = `Em pausa [${formatTimer(time)}]`
+      document.title = `Em pausa [${formatTime(time, true)}]`
     } else {
       document.title = "Meus estudos"
     }
