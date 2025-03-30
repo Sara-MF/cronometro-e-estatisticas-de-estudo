@@ -87,7 +87,7 @@ export default function Statistic({ studyTime, ref }: StatisticProps) {
   return (
     <>
       <dialog ref={ref} className="modal bg-base-100">
-        <div className="modal-box w-1/2 max-w-4xl max-h-5/6">
+        <div className="modal-box lg:w-1/2 lg:max-w-4xl max-h-5/6">
           <h3 className="font-bold text-lg pb-6">Minhas estatísticas</h3>
 
           {subjectStatistics.length === 0 ? (
@@ -99,7 +99,7 @@ export default function Statistic({ studyTime, ref }: StatisticProps) {
             <div className="flex flex-col md:flex-wrap md:flex-row gap-6 justify-center max-w-2xl">
 
               {Object.entries(topicsBySubjects).map(([subject, topicsByTime]) => (
-                <div className="flex flex-col border-2 rounded bg-base-200 border-base-300 p-2 gap-3 max-w-1/2" key={subject}>
+                <div className="flex flex-col border-2 rounded bg-base-200 border-base-300 p-2 gap-3 lg:max-w-1/2" key={subject}>
                   <p className="font-bold text-center">{subject} ({formatTime(topicsByTime.totalStudyTime, false)})</p>
 
                   <PieChart topics={topicsByTime.topics} times={topicsByTime.times} />
