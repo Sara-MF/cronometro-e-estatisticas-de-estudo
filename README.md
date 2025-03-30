@@ -31,7 +31,7 @@ Têm 3 botões que controlam o cronômetro:
 
 Foi inserido um atalho de Estatísticas no canto superior da tela, para que o usuário pudesse visualizar as estatísticas sem ter que esperar concluir algum estudo para conferir
 
-O gráfico em barra mostra o comparativo de tempo de estudo entre as disciplinas. Abaixo vem os gráficos de pizza, em que cada um deles mostra uma disciplina e os tempos de cada tema estudado
+Existem duas exibições de gráficos que podem ser visualizadas ao clicar para a mudança de gráfico: o gráfico em barra mostra o comparativo de tempo de estudo entre as disciplinas. Já os gráficos de pizza mostram uma disciplina e os tempos de cada tema estudado
 
 As estatísticas podem ser acessadas em qualquer estado do cronômetro
 
