@@ -29,6 +29,12 @@ export default function Statistic({ studyTime, ref }: StatisticProps) {
 
   const [topicsBySubjects, setTopicsBySubjects] = useState<TopicBySubjects>({});
 
+  const [showTopicsStatistics, setShowTopicsStatistics] = useState(true);
+
+  const changeGraphs = () => {
+    setShowTopicsStatistics(!showTopicsStatistics);
+  }
+
   const PieChart = dynamic(() => import('./PieChart'), { ssr: false });
 
   const BarChart = dynamic(() => import('./BarChart'), { ssr: false });
@@ -84,19 +90,11 @@ export default function Statistic({ studyTime, ref }: StatisticProps) {
 
   }, [subjectStatistics]);
 
-  console.log("topicsBySubjects", topicsBySubjects)
-
   return (
     <>
       <dialog ref={ref} className="modal bg-base-100">
         <div className="modal-box lg:w-1/2 lg:max-w-4xl max-h-5/6">
           <h3 className="font-bold text-lg pb-6">Minhas estatísticas</h3>
-
-          {Object.keys(topicsBySubjects).length !== 0 &&
-            <div className="mb-6">
-              <BarChart topicsBySubjects={topicsBySubjects} />
-            </div>
-          }
 
           {subjectStatistics.length === 0 ? (
             <div className="flex flex-col">
@@ -104,17 +102,36 @@ export default function Statistic({ studyTime, ref }: StatisticProps) {
             </div>
           ) : 
 
-            <div className="flex flex-col md:flex-wrap md:flex-row gap-6 justify-center max-w-2xl">
+            <>
+              <p className="font-bold border-b cursor-pointer inline-block mb-4" onClick={changeGraphs}>Trocar gráficos</p>
 
-              {Object.entries(topicsBySubjects).map(([subject, topicsByTime]) => (
-                <div className="flex flex-col border-2 rounded bg-base-200 border-base-300 p-2 gap-3 lg:max-w-1/2" key={subject}>
-                  <p className="font-bold text-center">{subject} ({formatTime(topicsByTime.totalStudyTime, false)})</p>
+              <p className="text-sm mb-4">Você já estudou {formatTime(subjectStatistics.reduce((acc, curr) => acc + curr.tempoEstudado, 0), false)}</p>
 
-                  <PieChart topics={topicsByTime.topics} times={topicsByTime.times} />
+              {showTopicsStatistics ? (
+                <div className="flex flex-col md:flex-wrap md:flex-row gap-6 justify-center max-w-2xl">
+                  {Object.entries(topicsBySubjects).map(([subject, topicsByTime]) => (
+                    <div
+                      className="flex flex-col border-2 rounded bg-base-200 border-base-300 p-2 gap-3 lg:max-w-1/2"
+                      key={subject}
+                    >
+                      <p className="font-bold text-center">
+                        {subject} ({formatTime(topicsByTime.totalStudyTime, false)})
+                      </p>
+
+                      <PieChart topics={topicsByTime.topics} times={topicsByTime.times} />
+                    </div>
+                  ))}
                 </div>
-              ))}
-
-            </div>
+              ) : (
+                Object.keys(topicsBySubjects).length !== 0 && (
+                  <div className="mb-6">
+                    <BarChart topicsBySubjects={topicsBySubjects} />
+                  </div>
+                )
+              )}
+            
+            </>
+            
           }
 
           <div className="modal-action flex flex-row justify-end">
