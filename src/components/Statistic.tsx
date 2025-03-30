@@ -15,7 +15,7 @@ export interface StudyInfo {
   tempoEstudado: number
 }
 
-interface TopicBySubjects {
+export interface TopicBySubjects {
   [subject: string]: {
     topics: string[];
     times: number[];
@@ -29,7 +29,9 @@ export default function Statistic({ studyTime, ref }: StatisticProps) {
 
   const [topicsBySubjects, setTopicsBySubjects] = useState<TopicBySubjects>({});
 
-  const PieChart = dynamic(() => import('../components/Chart'), { ssr: false });
+  const PieChart = dynamic(() => import('./PieChart'), { ssr: false });
+
+  const BarChart = dynamic(() => import('./BarChart'), { ssr: false });
 
   useEffect(() => {
 
@@ -89,6 +91,12 @@ export default function Statistic({ studyTime, ref }: StatisticProps) {
       <dialog ref={ref} className="modal bg-base-100">
         <div className="modal-box lg:w-1/2 lg:max-w-4xl max-h-5/6">
           <h3 className="font-bold text-lg pb-6">Minhas estatísticas</h3>
+
+          {Object.keys(topicsBySubjects).length !== 0 &&
+            <div className="mb-6">
+              <BarChart topicsBySubjects={topicsBySubjects} />
+            </div>
+          }
 
           {subjectStatistics.length === 0 ? (
             <div className="flex flex-col">

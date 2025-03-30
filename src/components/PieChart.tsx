@@ -10,12 +10,12 @@ import {
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-type ChartProps = {
+type PieChartProps = {
   topics: string[];
   times: number[];
 }
 
-export default function Chart({ topics, times }: ChartProps) {
+export default function PieChart({ topics, times }: PieChartProps) {
 
   const labels = topics.map((label: string, index: number): string =>
     `${label} (${formatTime(times[index], false)})`
