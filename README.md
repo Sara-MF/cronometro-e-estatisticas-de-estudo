@@ -1,70 +1,105 @@
-# Documentação do projeto
+# 📝 Documentação do Projeto  
 
-## Card do cronômetro
+Este projeto é um **cronômetro de estudos** com estatísticas detalhadas, permitindo que o usuário registre e visualize seu tempo de estudo por disciplina e tema.  
 
-O card do cronômetro é composto por 3 estruturas principais:
+🔗 **Acesse a aplicação**: [Link do Deploy](https://cronometro-e-estatisticas-de-estudo.vercel.app/)  
 
-* Seletores de escolha de disciplina e tema
-* Cronômetro
-* Botões de ação do cronômetro
+---
 
-## Seletores
+## 🏗 Estrutura do Cronômetro  
 
-Regras dos seletores:
+O cronômetro é composto por três componentes principais:  
 
-* O seletor de escolha de tema fica disponível apenas quando a disciplina tiver sido escolhida
-* Após o inicio do cronômetro, independente de estar pausado ou não, os seletores ficam desabilitados, para que o usuário não troque de disciplina enquanto o cronômetro estiver ativo. Caso o cronômetro seja reiniciado, os seletores voltam a ficar habilitados
+1️⃣ **Seletores de Disciplina e Tema**  
+2️⃣ **Cronômetro**  
+3️⃣ **Botões de Controle**  
 
-## Cronômetro
+---
 
-* É exibido no formato 00:00 enquanto o tempo cronometrado for menor que 1 hora. Caso seja maior, exibe no formato 00:00:00
+## 🎛️ Seletores de Disciplina e Tema  
 
-## Botões
+📌 **Regras de funcionamento**:  
 
-Têm 3 botões que controlam o cronômetro:
+✔ O seletor de **tema** só fica disponível após a escolha da disciplina.  
+✔ Após o início do cronômetro, os seletores são **desabilitados** para evitar trocas durante a contagem.  
+✔ Ao resetar o cronômetro, os seletores são reativados.  
 
-* Iniciar/Pausar: São o mesmo botão que se alternam de acordo com o estado do cronômetro
-* Resetar: Reinicia o cronômetro
-* Salvar tempo: Abre o modal de confirmação que permite encerrar o cronômetro e armazenar o tempo nas estatísticas
+---
 
-## Estatísticas
+## ⏱️ Funcionamento do Cronômetro  
 
-Foi inserido um atalho de Estatísticas no canto superior da tela, para que o usuário pudesse visualizar as estatísticas sem ter que esperar concluir algum estudo para conferir
+📌 **Formato de exibição**:  
 
-Existem duas exibições de gráficos que podem ser visualizadas ao clicar para a mudança de gráfico: o gráfico em barra mostra o comparativo de tempo de estudo entre as disciplinas. Já os gráficos de pizza mostram uma disciplina e os tempos de cada tema estudado
+- **00:00** → Para tempos menores que 1 hora.  
+- **00:00:00** → Para tempos maiores que 1 hora.  
 
-As estatísticas podem ser acessadas em qualquer estado do cronômetro
+---
 
-Caso o usuário tente acessar sem ter estudado ainda, aparece uma mensagem o incentivando a estudar
+## 🎮 Botões de Controle  
 
-## Outros detalhes do projeto
+🔘 **Iniciar/Pausar** → Alterna entre iniciar e pausar o cronômetro.  
+🔘 **Resetar** → Reinicia a contagem para 00:00.  
+🔘 **Salvar Tempo** → Abre um modal de confirmação e armazena o tempo estudado nas estatísticas.  
 
-### Construção de seletores
+---
 
-As disciplinas e temas foram criados aleatoriamente para ilustrar as funcionalidades e estão armazenadas em um objeto
+## 📊 Estatísticas de Estudo  
 
-### Mensagens de aviso
+📌 **Acesso rápido**: Menu de estatísticas no canto superior da tela.  
 
-Caso o usuário tente realizar a ação de iniciar o cronômetro antes de ter escolhido a disciplina e o tema, é exibida uma mensagem o orientando e o cronômetro não é iniciado
+📌 **Gráficos disponíveis**:  
 
-O mesmo ocorre caso tente salvar o tempo de estudo antes do início do cronômetro
+**📊 Gráfico de Barras** → Comparação entre as disciplinas estudadas.  
+**🥧 Gráfico de Pizza** → Representação do tempo estudado por tema dentro de uma disciplina.  
 
-### Título da aba do navegador
+📌 **Experiência do usuário**:  
 
-Enquanto o cronômetro não tiver sido iniciado, o título é exibido como "Meus estudos"
+✔ Estatísticas acessíveis em qualquer momento, independente do estado do cronômetro.  
+✔ Caso o usuário ainda não tenha estudado, uma mensagem motivacional é exibida.  
 
-Após o início, é exibido como "Estudando" e mostra ao lado o tempo do cronômetro
+---
 
-Caso seja pausado, é exibido "Em pausa", também com o tempo ao lado
+## ⚙️ Escolhas Técnicas  
 
-### Ferramentas utilizadas
+### 📌 Estrutura do Projeto  
 
-Para escolha de cores e componentes foi utilizada a biblioteca daisyui
+- O projeto foi desenvolvido em **Next.js (versão mais atual)**.  
+- A estrutura do código segue **padrões modulares**, contendo componentes e funções reutilizáveis.  
+- As disciplinas e temas são **dados mockados** apenas para visualização da aplicação.  
 
-Para exibição das mensagens de erro foi utilizada a biblioteca react-toastify
+### 🖌 Estilização  
 
-Para os gráficos foi utilizada a biblioteca Chartjs
+- **[DaisyUI](https://daisyui.com/)** → Biblioteca de componentes para estilização.  
 
-O projeto foi criado em Nextjs, na versão mais atualizada
+### 🚀 Notificações  
 
-Os commits do projeto foram realizados de forma semântica
+- **[React-Toastify](https://fkhadra.github.io/react-toastify/)** → Exibição de alertas e mensagens.  
+
+### 📈 Gráficos  
+
+- **[Chart.js](https://www.chartjs.org/)** → Utilizado para gerar gráficos de estatísticas.  
+
+---
+
+## 🔔 Mensagens de Aviso  
+
+📌 Para garantir uma boa experiência do usuário, mensagens são exibidas nos seguintes casos:  
+
+✔ Se tentar iniciar o cronômetro sem escolher **disciplina e tema** → Alerta informativo.  
+✔ Se tentar **salvar o tempo** sem iniciar o cronômetro → O usuário é impedido de salvar.  
+
+---
+
+## 🏷️ Personalização do Título do Navegador  
+
+O título da aba muda conforme o estado do cronômetro:  
+
+- **"Meus estudos"** → Quando o cronômetro está parado.  
+- **"Estudando [tempo]"** → Durante a contagem.  
+- **"Em pausa [tempo]"** → Se o cronômetro estiver pausado.  
+
+---
+
+## ✅ Commits e Versionamento  
+
+- Todos os commits seguem um **padrão semântico**, garantindo histórico limpo e organizado.
